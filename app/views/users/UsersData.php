@@ -19,7 +19,7 @@
         .btn-warning:hover { background-color: #d97706; }
         .btn-danger { background-color: #ef4444; border: none; }
         .btn-danger:hover { background-color: #dc2626; }
-         .btn-add {
+        .btn-add {
             background-color: #3b82f6;
             color: #fff;
             border: none;
@@ -39,7 +39,8 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Users List</h2>
-        <a href="/users/create" class="btn-add">Add New User</a>
+        <!-- ✅ fixed Add New User button -->
+        <a href="/index.php/users/create" class="btn-add">Add New User</a>
     </div>
 
     <?php if (!empty($users)): ?>
@@ -59,8 +60,9 @@
                         <td><?= $user['username'] ?></td>
                         <td><?= $user['email'] ?></td>
                         <td>
-                            <a href="/users/update/<?= $user['id'] ?>" class="btn btn-warning btn-sm">Update</a>
-                            <a href="/users/delete/<?= $user['id'] ?>" 
+                            <!-- ✅ fixed Update + Delete -->
+                            <a href="/index.php/users/update/<?= $user['id'] ?>" class="btn btn-warning btn-sm">Update</a>
+                            <a href="/index.php/users/delete/<?= $user['id'] ?>" 
                                class="btn btn-danger btn-sm"
                                onclick="return confirm('Are you sure you want to delete this user?');">
                                Delete

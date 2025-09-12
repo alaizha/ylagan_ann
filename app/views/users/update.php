@@ -24,7 +24,8 @@
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
         }
         .form-card h4 {
-            margin-bottom: 15px, color: white;
+            margin-bottom: 15px;
+            color: white;
         }
         .btn-submit {
             background: #22c55e;
@@ -45,7 +46,8 @@
     <div class="form-card">
         <h4>Update Users Information</h4>
 
-        <form method="post" action="/users/update/<?= $user['id'] ?>">
+        <!-- ✅ Fixed action -->
+        <form method="post" action="/index.php/users/update/<?= $user['id'] ?>">
             <div class="mb-3">
                 <label class="form-label">Username</label>
                 <input type="text" class="form-control" name="username" 
