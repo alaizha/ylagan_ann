@@ -45,8 +45,8 @@
     <div class="form-card">
         <h4>Information</h4>
 
-    
-        <form method="post" action="/users/create">
+        <!-- ✅ Updated action -->
+        <form method="post" action="/index.php/users/create">
             <div class="mb-3">
                 <label class="form-label">Username</label>
                 <input type="text" class="form-control" name="username" placeholder="Enter username" required>
@@ -61,7 +61,6 @@
         </form>
     </div>
 
-  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
