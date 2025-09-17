@@ -43,9 +43,9 @@
 <body>
 
     <div class="form-card">
-        <h4>Information</h4>
+        <h4>Create User</h4>
 
-        <!-- ✅ Updated action -->
+        <!-- ✅ Action fixed: points to correct controller -->
         <form method="post" action="/index.php/users/create">
             <div class="mb-3">
                 <label class="form-label">Username</label>

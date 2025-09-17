@@ -105,7 +105,7 @@
                         </a>
                     </li>
                 <?php endfor; ?>
-            </ul>
+            </ul> 
         </nav>
 
     <?php else: ?>

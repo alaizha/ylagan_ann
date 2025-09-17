@@ -44,9 +44,9 @@
 <body>
 
     <div class="form-card">
-        <h4>Update Users Information</h4>
+        <h4>Update User</h4>
 
-        <!-- ✅ Fixed action -->
+        <!-- ✅ Action fixed: sends POST with user ID -->
         <form method="post" action="/index.php/users/update/<?= $user['id'] ?>">
             <div class="mb-3">
                 <label class="form-label">Username</label>
