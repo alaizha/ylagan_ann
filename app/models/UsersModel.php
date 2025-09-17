@@ -14,4 +14,28 @@ class UsersModel extends Model {
     {
         parent::__construct();
     }
+
+    // ✅ Get users with pagination + optional search
+    public function getUsers($limit, $offset, $search = '') {
+        $db = $this->db->table($this->table);
+
+        if (!empty($search)) {
+            $db->like('username', $search)
+               ->or_like('email', $search);
+        }
+
+        return $db->limit($limit, $offset)->get_all();
+    }
+
+    // ✅ Count total users (for pagination)
+    public function countUsers($search = '') {
+        $db = $this->db->table($this->table);
+
+        if (!empty($search)) {
+            $db->like('username', $search)
+               ->or_like('email', $search);
+        }
+
+        return $db->count();
+    }
 }

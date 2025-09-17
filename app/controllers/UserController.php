@@ -12,6 +12,7 @@ class UserController extends Controller {
         parent::__construct();
     }
 
+    
     public function UsersData(){
         $data['users'] = $this->UsersModel->all();
          $this->call->view('users/UsersData', $data);
