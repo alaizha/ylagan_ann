@@ -13,10 +13,20 @@ class UserController extends Controller {
     }
 
     
-    public function UsersData(){
-        $data['users'] = $this->UsersModel->all();
-         $this->call->view('users/UsersData', $data);
-    }
+    public function UsersData() {
+    $userModel = new UsersModel();
+
+    $limit = 5;
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $offset = ($page - 1) * $limit;
+    $search = $_GET['search'] ?? '';
+
+    $data['users'] = $this->UsersModel->getUsers($limit, $offset, $search);
+    $data['total_pages'] = ceil($this->UsersModel->countUsers($search) / $limit);
+    $data['page'] = $page;
+
+}
+
 
    public function create()
 {
