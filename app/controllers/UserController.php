@@ -3,35 +3,40 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 /**
  * Controller: UserController
- * 
- * Automatically generated via CLI.
+ * Handles CRUD operations and pagination for users.
  */
-class UserController extends Controller {
+class UserController extends Controller 
+{
     public function __construct()
     {
         parent::__construct();
+        $this->call->model('UsersModel');       // ✅ load model once
+        $this->call->library('Pagination');     // ✅ load pagination once
     }
 
+    /**
+     * Display paginated users list with search
+     */
     public function UsersData()
     {
-        $this->call->model('UsersModel');
+        // Current page
+        $page = (isset($_GET['page']) && !empty($_GET['page'])) 
+            ? (int) $this->io->get('page') 
+            : 1;
 
-        $page = 1;
-        if(isset($_GET['page']) && ! empty($_GET['page'])) {
-            $page = $this->io->get('page');
-        }
-
-        $q = '';
-        if(isset($_GET['q']) && ! empty($_GET['q'])) {
-            $q = trim($this->io->get('q'));
-        }
+        // Search keyword
+        $q = (isset($_GET['q']) && !empty($_GET['q'])) 
+            ? trim($this->io->get('q')) 
+            : '';
 
         $records_per_page = 10;
 
+        // Fetch paginated users from model
         $user = $this->UsersModel->page($q, $records_per_page, $page);
         $data['user'] = $user['records'];
-        $total_rows = $user['total_rows'];
+        $total_rows   = $user['total_rows'];
 
+        // Setup pagination
         $this->pagination->set_options([
             'first_link'     => '⏮ First',
             'last_link'      => 'Last ⏭',
@@ -41,78 +46,79 @@ class UserController extends Controller {
         ]);
         $this->pagination->set_theme('bootstrap');
         $this->pagination->initialize($total_rows, $records_per_page, $page, 'users?q='.$q);
-        $data['page'] = $this->pagination->paginate();
 
-       $data['users'] = $this->UsersModel->all();
+        $data['page']  = $this->pagination->paginate();  // links
+        $data['users'] = $this->UsersModel->all();       // optional: load all users
+
+        // Render view
         $this->call->view('users/UsersData', $data);
     }
 
-   public function create()
-{
-    if ($this->io->method() === 'post') {
-        
-        $username = $this->io->post('username');
-        $email = $this->io->post('email');
+    /**
+     * Create a new user
+     */
+    public function create()
+    {
+        if ($this->io->method() === 'post') {
+            $username = trim($this->io->post('username'));
+            $email    = trim($this->io->post('email'));
 
-        $data = [
-            'username' => $username,
-            'email'    => $email
-        ];
+            $data = [
+                'username' => $username,
+                'email'    => $email
+            ];
 
-        $userModel = new UsersModel();
-
-        if ($userModel->insert($data)) {
-            return redirect('users/UsersData'); 
+            if ($this->UsersModel->insert($data)) {
+                return redirect('users/UsersData'); 
+            } else {
+                echo '❌ Error inserting data';
+            }
         } else {
-            echo 'Error inserting data';
+            return $this->call->view('users/create');
         }
-    } else {
-        return $this->call->view('users/create');
     }
-}
 
+    /**
+     * Update an existing user
+     */
+    public function update($id)
+    {
+        if ($this->io->method() === 'post') {
+            $username = trim($this->io->post('username'));
+            $email    = trim($this->io->post('email'));
 
-  public function update($id)
-{
-    $userModel = new UsersModel();
+            $data = [
+                'username' => $username,
+                'email'    => $email
+            ];
 
-    if ($this->io->method() === 'post') {
-        $username = $this->io->post('username');
-        $email    = $this->io->post('email');
+            if ($this->UsersModel->update($id, $data)) {
+                return redirect('users/UsersData');
+            } else {
+                echo "❌ Error updating user.";
+            }
 
-        $data = [
-            'username' => $username,
-            'email'    => $email
-        ];
+        } else {
+            $data['user'] = $this->UsersModel->find($id);
 
-        if ($userModel->update($id, $data)) {
+            if (!$data['user']) {
+                echo "❌ User not found!";
+                return;
+            }
+
+            return $this->call->view('users/update', $data);
+        }
+    }
+
+    /**
+     * Delete a user
+     */
+    public function delete($id)
+    {
+        if ($this->UsersModel->delete($id)) {
             return redirect('users/UsersData');
         } else {
-            echo "Error updating user.";
+            echo "❌ Error deleting user.";
         }
-
-    } else {
-        $data['user'] = $userModel->find($id);
-
-        if (!$data['user']) {
-            echo "User not found!";
-            return;
-        }
-
-        return $this->call->view('users/update', $data);
     }
-}
-
-
-
-public function delete($id)
-{
-    $userModel = new UsersModel();
-
-    if ($userModel->delete($id)) {
-        return redirect('users/UsersData');
-    } else {
-        echo "Error deleting user.";
-    }
-}
 }
