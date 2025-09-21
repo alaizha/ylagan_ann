@@ -17,42 +17,49 @@ class UserController extends Controller
     /**
      * Display paginated users list with search
      */
-    public function UsersData()
-    {
-        // Current page
-        $page = (isset($_GET['page']) && !empty($_GET['page'])) 
-            ? (int) $this->io->get('page') 
-            : 1;
+   public function UsersData()
+{
+    $this->call->model('UsersModel');
+    $this->call->library('Pagination'); // make sure pagination is loaded
 
-        // Search keyword
-        $q = (isset($_GET['q']) && !empty($_GET['q'])) 
-            ? trim($this->io->get('q')) 
-            : '';
-
-        $records_per_page = 10;
-
-        // Fetch paginated users from model
-        $user = $this->UsersModel->page($q, $records_per_page, $page);
-        $data['user'] = $user['records'];
-        $total_rows   = $user['total_rows'];
-
-        // Setup pagination
-        $this->pagination->set_options([
-            'first_link'     => '⏮ First',
-            'last_link'      => 'Last ⏭',
-            'next_link'      => 'Next →',
-            'prev_link'      => '← Prev',
-            'page_delimiter' => '&page='
-        ]);
-        $this->pagination->set_theme('bootstrap');
-        $this->pagination->initialize($total_rows, $records_per_page, $page, 'users?q='.$q);
-
-        $data['page']  = $this->pagination->paginate();  // links
-        $data['users'] = $this->UsersModel->all();       // optional: load all users
-
-        // Render view
-        $this->call->view('users/UsersData', $data);
+    $page = 1;
+    if ($this->io->get('page')) {
+        $page = (int) $this->io->get('page');
     }
+
+    $q = '';
+    if ($this->io->get('q')) {
+        $q = trim($this->io->get('q'));
+    }
+
+    $records_per_page = 10;
+
+    // fetch paginated records
+    $user = $this->UsersModel->page($q, $records_per_page, $page);
+    $data['user'] = $user['records'];
+    $total_rows   = $user['total_rows'];
+
+    // ✅ Use $this->call->pagination instead of $this->pagination
+    $this->call->pagination->set_options([
+        'first_link'     => '⏮ First',
+        'last_link'      => 'Last ⏭',
+        'next_link'      => 'Next →',
+        'prev_link'      => '← Prev',
+        'page_delimiter' => '&page='
+    ]);
+    $this->call->pagination->set_theme('bootstrap');
+    $this->call->pagination->initialize($total_rows, $records_per_page, $page, 'users?q='.$q);
+
+    // pass pagination HTML to view
+    $data['page'] = $this->call->pagination->paginate();
+
+    // also load all users if needed
+    $data['users'] = $this->UsersModel->all();
+
+    // render view
+    $this->call->view('users/UsersData', $data);
+}
+
 
     /**
      * Create a new user
