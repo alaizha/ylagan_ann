@@ -35,13 +35,23 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Users List</h2>
         <!-- ✅ fixed Add New User button -->
         <a href="/index.php/users/create" class="btn-add">Add New User</a>
     </div>
+
+    <form action="<?=site_url('users');?>" method="get" class="col-sm-4 float-end d-flex search-form" class="search-form">
+		<?php
+		$q = '';
+		if(isset($_GET['q'])) {
+			$q = $_GET['q'];
+		}
+		?>
+        <input class="form-control me-2" name="q" type="text" placeholder="Search" value="<?=html_escape($q);?>">
+        <button type="submit" class="btn btn-primary" type="button">Search</button>	
+	</form>
 
     <?php if (!empty($users)): ?>
         <table class="table table-striped table-bordered text-center">
