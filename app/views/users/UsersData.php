@@ -9,7 +9,7 @@
             background: #0f172a;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
+            height: 100vh;
         }
         .container { margin-top: 50px; color: white; }
         .table { background: #111827; border-radius: 10px; overflow: hidden; }
@@ -32,29 +32,20 @@
             background-color: #2563eb;
             color: #fff;
         }
-        /* ✅ Center pagination */
-        .pagination {
-            justify-content: center;
-        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Users List</h2>
-        <!-- ✅ Add New User button -->
+        <!-- ✅ fixed Add New User button -->
         <a href="/index.php/users/create" class="btn-add">Add New User</a>
     </div>
 
-    <form action="<?=site_url('users');?>" method="get" class="col-sm-4 float-end d-flex search-form">
-        <?php
-        $q = '';
-        if(isset($_GET['q'])) {
-            $q = $_GET['q'];
-        }
-        ?>
-        <input class="form-control me-2" name="q" type="text" placeholder="Search" value="<?=html_escape($q);?>">
-        <button type="submit" class="btn btn-primary">Search</button>    
+    <form action="<?= site_url('users'); ?>" method="get" class="col-sm-4 float-end d-flex search-form">
+        <?php $q = isset($_GET['q']) ? $_GET['q'] : ''; ?>
+        <input class="form-control me-2" name="q" type="text" placeholder="Search" value="<?= html_escape($q); ?>">
+        <button type="submit" class="btn btn-primary">Search</button>
     </form>
 
     <?php if (!empty($users)): ?>
@@ -74,7 +65,6 @@
                         <td><?= $user['username'] ?></td>
                         <td><?= $user['email'] ?></td>
                         <td>
-                            <!-- ✅ Update + Delete -->
                             <a href="/index.php/users/update/<?= $user['id'] ?>" class="btn btn-warning btn-sm">Update</a>
                             <a href="/index.php/users/delete/<?= $user['id'] ?>" 
                                class="btn btn-danger btn-sm"
@@ -87,10 +77,10 @@
             </tbody>
         </table>
 
-        <!-- ✅ Pagination block -->
-        <nav>
+        <!-- ✅ Bootstrap pagination centered -->
+        <div class="d-flex justify-content-center mt-3">
             <?= $page ?>
-        </nav>
+        </div>
 
     <?php else: ?>
         <p>No users found.</p>

@@ -20,17 +20,17 @@ class UserController extends Controller
    public function UsersData()
 {
     $this->call->model('UsersModel');
-    $this->call->library('Pagination'); // make sure pagination is loaded
+    $this->call->library('Pagination');
 
-    $page = 1;
-    if ($this->io->get('page')) {
-        $page = (int) $this->io->get('page');
-    }
+    // ✅ safely read page
+    $page = (isset($_GET['page']) && !empty($_GET['page'])) 
+        ? (int) $this->io->get('page') 
+        : 1;
 
-    $q = '';
-    if ($this->io->get('q')) {
-        $q = trim($this->io->get('q'));
-    }
+    // ✅ safely read search query
+    $q = (isset($_GET['q']) && !empty($_GET['q'])) 
+        ? trim($this->io->get('q')) 
+        : '';
 
     $records_per_page = 10;
 
@@ -39,7 +39,7 @@ class UserController extends Controller
     $data['user'] = $user['records'];
     $total_rows   = $user['total_rows'];
 
-    // ✅ Use $this->call->pagination instead of $this->pagination
+    // setup pagination
     $this->call->pagination->set_options([
         'first_link'     => '⏮ First',
         'last_link'      => 'Last ⏭',
@@ -50,15 +50,13 @@ class UserController extends Controller
     $this->call->pagination->set_theme('bootstrap');
     $this->call->pagination->initialize($total_rows, $records_per_page, $page, 'users?q='.$q);
 
-    // pass pagination HTML to view
     $data['page'] = $this->call->pagination->paginate();
 
-    // also load all users if needed
     $data['users'] = $this->UsersModel->all();
 
-    // render view
     $this->call->view('users/UsersData', $data);
 }
+
 
 
     /**
