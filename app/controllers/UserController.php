@@ -11,7 +11,6 @@ class UserController extends Controller
     {
         parent::__construct();
         $this->call->model('UsersModel');       
-        $this->call->library('pagination');   // ✅ FIX: load pagination
     }
 
     public function UsersData()
