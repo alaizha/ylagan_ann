@@ -43,8 +43,9 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 
-$router->get('/', 'UserController@create');  
-$router->post('/', 'UserController@create'); 
+$router->get('/', 'UserController@create');  // Landing page → Create User
+$router->post('/', 'UserController@create'); // Allow form submission on landing page
+
 $router->get('/users/UsersData', 'UserController::UsersData');
 $router->get('/users/create', 'UserController@create');
 $router->post('/users/create', 'UserController@create');

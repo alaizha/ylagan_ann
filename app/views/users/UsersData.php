@@ -13,7 +13,7 @@
         }
         .container { margin-top: 50px; color: white; }
         .table { background: #111827; border-radius: 10px; overflow: hidden; }
-        .table th, .table td { color: #e5e7eb; vertical-align: middle; }
+        .table th, .table td { color: #080808ff; vertical-align: middle; }
         .table-striped tbody tr:nth-of-type(odd) { background-color: #1f2937; }
         .btn-warning { background-color: #f59e0b; border: none; }
         .btn-warning:hover { background-color: #d97706; }
@@ -32,23 +32,6 @@
             background-color: #2563eb;
             color: #fff;
         }
-        .search-bar input {
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: #fff;
-        }
-        .search-bar input::placeholder {
-            color: #9ca3af;
-        }
-        .pagination .page-link {
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: #fff;
-        }
-        .pagination .page-item.active .page-link {
-            background: #3b82f6;
-            border-color: #3b82f6;
-        }
     </style>
 </head>
 <body>
@@ -56,15 +39,9 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Users List</h2>
+        <!-- ✅ fixed Add New User button -->
         <a href="/index.php/users/create" class="btn-add">Add New User</a>
     </div>
-
-    <!-- Search Bar -->
-    <form method="GET" class="d-flex search-bar mb-3">
-        <input type="text" name="search" class="form-control me-2" placeholder="Search users..."
-               value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-        <button type="submit" class="btn btn-success">Search</button>
-    </form>
 
     <?php if (!empty($users)): ?>
         <table class="table table-striped table-bordered text-center">
@@ -83,6 +60,7 @@
                         <td><?= $user['username'] ?></td>
                         <td><?= $user['email'] ?></td>
                         <td>
+                            <!-- ✅ fixed Update + Delete -->
                             <a href="/index.php/users/update/<?= $user['id'] ?>" class="btn btn-warning btn-sm">Update</a>
                             <a href="/index.php/users/delete/<?= $user['id'] ?>" 
                                class="btn btn-danger btn-sm"
@@ -94,20 +72,6 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-
-        <!-- Pagination -->
-        <nav>
-            <ul class="pagination justify-content-center">
-                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                        <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($_GET['search'] ?? '') ?>">
-                            <?= $i ?>
-                        </a>
-                    </li>
-                <?php endfor; ?>
-            </ul> 
-        </nav>
-
     <?php else: ?>
         <p>No users found.</p>
     <?php endif; ?>
