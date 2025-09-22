@@ -85,7 +85,7 @@ class UsersController extends Controller {
                 'username' => $username,
                 'email' => $email
             );
-            if($this->Usersmodel->update($id, $data)) {
+            if($this->UsersModel->update($id, $data)) {
                 redirect();
             } else {
                 echo "Error updating record.";
@@ -98,7 +98,7 @@ class UsersController extends Controller {
 
     function delete($id)
     {
-        if($this->Usersmodel->delete($id)) {
+        if($this->UsersModel->delete($id)) {
             redirect();
         } else {
             echo "Error deleting record.";
