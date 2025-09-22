@@ -60,7 +60,7 @@
     }
     .table th {
       background: #334155;
-      color: #0b0b0bff;
+      color: #f8f6f6ff;
       font-weight: 600;
     }
     .table td {
