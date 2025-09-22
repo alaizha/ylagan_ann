@@ -60,11 +60,11 @@
     }
     .table th {
       background: #334155;
-      color: #f8f6f6ff;
+      color: #f1f5f9;
       font-weight: 600;
     }
     .table td {
-      color: #0f0f0fff;
+      color: #070707ff;
     }
     .table-striped tbody tr:nth-of-type(odd) {
       background-color: #273449;
@@ -131,53 +131,50 @@
   </style>
 </head>
 <body>
-  <h1>Students Info</h1>
+  <h1>Students Information</h1>
 
-  <!-- Search -->
-  <form action="<?= site_url('users'); ?>" method="get" class="search-form">
-    <?php
-      $q = '';
-      if(isset($_GET['q'])) {
-        $q = $_GET['q'];
-      }
-    ?>
-    <input class="form-control" name="q" type="text" placeholder="Search..." value="<?= html_escape($q); ?>" style="max-width: 300px;">
-    <button type="submit" class="btn-search">Search</button>
-  </form>
+  <div class="container">
+    <!-- Search -->
+    <form action="<?= site_url('users'); ?>" method="get" class="search-form">
+      <?php $q = isset($_GET['q']) ? $_GET['q'] : ''; ?>
+      <input class="form-control" name="q" type="text" placeholder="Search..." value="<?= html_escape($q); ?>">
+      <button type="submit" class="btn-search">Search</button>
+    </form>
 
-  <!-- Table -->
-  <table class="table table-hover text-center align-middle">
-    <thead>
-      <tr>
-        <th width="10%">ID</th>
-        <th width="30%">Name</th>
-        <th width="40%">Email</th>
-        <th width="20%">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach (html_escape($user) as $users): ?>
+    <!-- Table -->
+    <table class="table table-hover table-striped text-center align-middle">
+      <thead>
         <tr>
-          <td><?= html_escape($users['id']); ?></td>
-          <td><?= html_escape($users['username']); ?></td>
-          <td><?= html_escape($users['email']); ?></td>
-          <td>
-            <a href="<?= site_url('/users/update/'.$users['id']); ?>" class="action-btn update">Update</a>
-            <a href="<?= site_url('/users/delete/'.$users['id']); ?>" class="action-btn delete" onclick="return confirm('Delete this user?');">Delete</a>
-          </td>
+          <th width="10%">ID</th>
+          <th width="30%">Name</th>
+          <th width="40%">Email</th>
+          <th width="20%">Action</th>
         </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <?php foreach (html_escape($user) as $users): ?>
+          <tr>
+            <td><?= html_escape($users['id']); ?></td>
+            <td><?= html_escape($users['username']); ?></td>
+            <td><?= html_escape($users['email']); ?></td>
+            <td>
+              <a href="<?= site_url('/users/update/'.$users['id']); ?>" class="action-btn update">Update</a>
+              <a href="<?= site_url('/users/delete/'.$users['id']); ?>" class="action-btn delete" onclick="return confirm('Delete this user?');">Delete</a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
 
-  <!-- Pagination -->
-  <div class="d-flex justify-content-center">
-    <?= $page; ?>
-  </div>
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+      <?= $page; ?>
+    </div>
 
-  <!-- Create Button -->
-  <div class="text-center mt-4">
-    <a href="<?= site_url('users/create'); ?>" class="btn-create">+ Create New User</a>
+    <!-- Create Button -->
+    <div class="text-center mt-4">
+      <a href="<?= site_url('users/create'); ?>" class="btn-create">+ Create New User</a>
+    </div>
   </div>
 </body>
 </html>
