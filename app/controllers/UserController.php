@@ -2,120 +2,106 @@
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 /**
- * Controller: UserController
- * Handles CRUD operations and pagination for users.
+ * Controller: UsersController
+ * 
+ * Automatically generated via CLI.
  */
-class UserController extends Controller 
-{
+class UsersController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->call->model('UsersModel');       
-        $this->call->library('pagination');   // ✅ FIX: load pagination library
+        $this->call->library('Pagination'); // 
     }
-
-    public function UsersData()
+    public function index()
     {
-        $page = (isset($_GET['page']) && !empty($_GET['page'])) 
-            ? (int) $this->io->get('page') 
-            : 1;
+        $this->call->model('UsersModel');
+        $this->call->library('Pagination'); // 
 
-        $q = (isset($_GET['q']) && !empty($_GET['q'])) 
-            ? trim($this->io->get('q')) 
-            : '';
+        $page = 1;
+        if(isset($_GET['page']) && ! empty($_GET['page'])) {
+            $page = $this->io->get('page');
+        }
+
+        $q = '';
+        if(isset($_GET['q']) && ! empty($_GET['q'])) {
+            $q = trim($this->io->get('q'));
+        }
 
         $records_per_page = 10;
 
-        // fetch paginated records
         $user = $this->UsersModel->page($q, $records_per_page, $page);
         $data['user'] = $user['records'];
-        $total_rows   = $user['total_rows'];
+        $total_rows = $user['total_rows'];
 
-        // setup pagination
-        $this->call->pagination->set_options([
-            'first_link'     => '⏮ First',
-            'last_link'      => 'Last ⏭',
-            'next_link'      => 'Next →',
-            'prev_link'      => '← Prev',
+        $this->pagination->set_options([
+            'first_link'     => '<span class="px-3 py-1 bg-emerald-600 text-green rounded hover:bg-emerald-700">⏮ First</span>',
+            'last_link'      => '<span class="px-3 py-1 bg-emerald-600 text-green rounded hover:bg-emerald-700">Last ⏭</span>',
+            'next_link'      => '<span class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Next →</span>',
+            'prev_link'      => '<span class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">← Prev</span>',
+            'cur_tag_open'   => '<span class="px-3 py-1 bg-emerald-600 text-white rounded">',
+            'cur_tag_close'  => '</span>',
+            'num_tag_open'   => '<span class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">',
+            'num_tag_close'  => '</span>',
             'page_delimiter' => '&page='
         ]);
-        $this->call->pagination->set_theme('bootstrap');
-        $this->call->pagination->initialize($total_rows, $records_per_page, $page, 'users?q='.$q);
 
-        $data['page'] = $this->call->pagination->paginate();
+        $this->pagination->initialize($total_rows, $records_per_page, $page, 'users?q='.urldecode($q));
+        $data['page'] = $this->pagination->paginate();
 
-        $data['users'] = $this->UsersModel->all();
-
-        $this->call->view('users/UsersData', $data);
+        $this->call->view('users/index', $data);
     }
 
-
-
-    /**
-     * Create a new user
-     */
     public function create()
     {
-        if ($this->io->method() === 'post') {
-            $username = trim($this->io->post('username'));
-            $email    = trim($this->io->post('email'));
+        if ($this->io->method() == 'post') {
 
-            $data = [
+            $username =$this->io->post('username');
+            $email =$this->io->post('email');
+            $data = array(
                 'username' => $username,
-                'email'    => $email
-            ];
-
-            if ($this->UsersModel->insert($data)) {
-                return redirect('users/UsersData'); 
+                'email' => $email
+            );
+            if($this->UsersModel->insert($data)) {
+                redirect();
             } else {
-                echo '❌ Error inserting data';
+                echo "Error inserting record.";
             }
-        } else {
-            return $this->call->view('users/create');
+        }else{
+            $this->call->view('users/create');
         }
     }
 
-    /**
-     * Update an existing user
-     */
-    public function update($id)
+    function update($id)
     {
-        if ($this->io->method() === 'post') {
-            $username = trim($this->io->post('username'));
-            $email    = trim($this->io->post('email'));
-
-            $data = [
+        $user = $this->UsersModel->find($id);
+        if (!$user) {
+            echo "User not found.";
+            return;
+        }
+        if($this->io->method() == "post") {
+            $username =$this->io->post("username");
+            $email =$this->io->post("email");
+            $data = array(
                 'username' => $username,
-                'email'    => $email
-            ];
-
-            if ($this->UsersModel->update($id, $data)) {
-                return redirect('users/UsersData');
+                'email' => $email
+            );
+            if($this->Usersmodel->update($id, $data)) {
+                redirect();
             } else {
-                echo "❌ Error updating user.";
+                echo "Error updating record.";
             }
-
         } else {
-            $data['user'] = $this->UsersModel->find($id);
-
-            if (!$data['user']) {
-                echo "❌ User not found!";
-                return;
-            }
-
-            return $this->call->view('users/update', $data);
+            $data['user'] = $user;
+            $this->call->view('users/update', $data);
         }
     }
 
-    /**
-     * Delete a user
-     */
-    public function delete($id)
+    function delete($id)
     {
-        if ($this->UsersModel->delete($id)) {
-            return redirect('users/UsersData');
+        if($this->Usersmodel->delete($id)) {
+            redirect();
         } else {
-            echo "❌ Error deleting user.";
+            echo "Error deleting record.";
         }
     }
 }

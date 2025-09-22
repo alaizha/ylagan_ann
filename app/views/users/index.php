@@ -22,7 +22,7 @@
         .btn-add {
             background-color: #3b82f6;
             color: #fff;
-            border: none;
+            border: none;b`
             padding: 8px 15px;
             border-radius: 8px;
             font-weight: 600;
