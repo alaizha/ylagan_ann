@@ -60,11 +60,11 @@
     }
     .table th {
       background: #334155;
-      color: #f1f5f9;
+      color: #0b0b0bff;
       font-weight: 600;
     }
     .table td {
-      color: #e2e8f0;
+      color: #0f0f0fff;
     }
     .table-striped tbody tr:nth-of-type(odd) {
       background-color: #273449;
