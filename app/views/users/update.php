@@ -69,8 +69,7 @@
                 <label class="form-label">Role</label>
                 <select class="form-select" name="role" required>
                     <option value="Admin" <?= $user['role'] === 'Admin' ? 'selected' : '' ?>>Admin</option>
-                    <option value="Student" <?= $user['role'] === 'Student' ? 'selected' : '' ?>>Student</option>
-                    <option value="Teacher" <?= $user['role'] === 'Teacher' ? 'selected' : '' ?>>Teacher</option>
+                    <option value="User" <?= $user['role'] === 'Student' ? 'selected' : '' ?>>User</option>
                 </select>
             </div>
 
