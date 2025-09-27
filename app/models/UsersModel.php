@@ -3,8 +3,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 /**
  * Model: UsersModel
- * 
- * Automatically generated via CLI.
+ * Handles database operations for users.
  */
 class UsersModel extends Model {
     protected $table = 'users';
@@ -15,29 +14,31 @@ class UsersModel extends Model {
         parent::__construct();
     }
 
-    public function page($q = '', $records_per_page = null, $page = null) {
- 
-            if (is_null($page)) {
-                return $this->db->table('users')->get_all();
-            } else {
-                $query = $this->db->table('users');
+    public function page($q = '', $records_per_page = null, $page = null) 
+    {
+        if (is_null($page)) {
+            return $this->db->table($this->table)->get_all();
+        } else {
+            $query = $this->db->table($this->table);
 
-                // Build LIKE conditions
+            // 🔎 Now search across id, username, email, and role
+            if (!empty($q)) {
                 $query->like('id', '%'.$q.'%')
-                    ->or_like('username', '%'.$q.'%')
-                    ->or_like('email', '%'.$q.'%');
-                    
-                // Clone before pagination
-                $countQuery = clone $query;
-
-                $data['total_rows'] = $countQuery->select_count('*', 'count')
-                                                ->get()['count'];
-
-                $data['records'] = $query->pagination($records_per_page, $page)
-                                        ->get_all();
-
-                return $data;
+                      ->or_like('username', '%'.$q.'%')
+                      ->or_like('email', '%'.$q.'%')
+                      ->or_like('role', '%'.$q.'%');
             }
-        }
 
+            // Clone before pagination
+            $countQuery = clone $query;
+
+            $data['total_rows'] = $countQuery->select_count('*', 'count')
+                                             ->get()['count'];
+
+            $data['records'] = $query->pagination($records_per_page, $page)
+                                     ->get_all();
+
+            return $data;
+        }
+    }
 }

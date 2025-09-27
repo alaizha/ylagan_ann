@@ -3,33 +3,24 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 /**
  * Controller: UsersController
- * 
- * Automatically generated via CLI.
+ * Handles CRUD operations with pagination for users.
  */
 class UserController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->call->library('Pagination'); // 
+        $this->call->library('Pagination'); 
+        $this->call->model('UsersModel');
     }
+
     public function index()
     {
-        $this->call->model('UsersModel');
-        $this->call->library('Pagination'); // 
-
-        $page = 1;
-        if(isset($_GET['page']) && ! empty($_GET['page'])) {
-            $page = $this->io->get('page');
-        }
-
-        $q = '';
-        if(isset($_GET['q']) && ! empty($_GET['q'])) {
-            $q = trim($this->io->get('q'));
-        }
+        $page = isset($_GET['page']) ? $this->io->get('page') : 1;
+        $q = isset($_GET['q']) ? trim($this->io->get('q')) : '';
 
         $records_per_page = 10;
-
         $user = $this->UsersModel->page($q, $records_per_page, $page);
+
         $data['user'] = $user['records'];
         $total_rows = $user['total_rows'];
 
@@ -54,38 +45,46 @@ class UserController extends Controller {
     public function create()
     {
         if ($this->io->method() == 'post') {
+            $username = $this->io->post('username');
+            $email    = $this->io->post('email');
+            $role     = $this->io->post('role');
 
-            $username =$this->io->post('username');
-            $email =$this->io->post('email');
             $data = array(
                 'username' => $username,
-                'email' => $email
+                'email'    => $email,
+                'role'     => $role
             );
-            if($this->UsersModel->insert($data)) {
+
+            if ($this->UsersModel->insert($data)) {
                 redirect();
             } else {
                 echo "Error inserting record.";
             }
-        }else{
+        } else {
             $this->call->view('users/create');
         }
     }
 
-    function update($id)
+    public function update($id)
     {
         $user = $this->UsersModel->find($id);
         if (!$user) {
             echo "User not found.";
             return;
         }
-        if($this->io->method() == "post") {
-            $username =$this->io->post("username");
-            $email =$this->io->post("email");
+
+        if ($this->io->method() == "post") {
+            $username = $this->io->post("username");
+            $email    = $this->io->post("email");
+            $role     = $this->io->post("role");
+
             $data = array(
                 'username' => $username,
-                'email' => $email
+                'email'    => $email,
+                'role'     => $role
             );
-            if($this->UsersModel->update($id, $data)) {
+
+            if ($this->UsersModel->update($id, $data)) {
                 redirect();
             } else {
                 echo "Error updating record.";
@@ -96,9 +95,9 @@ class UserController extends Controller {
         }
     }
 
-    function delete($id)
+    public function delete($id)
     {
-        if($this->UsersModel->delete($id)) {
+        if ($this->UsersModel->delete($id)) {
             redirect();
         } else {
             echo "Error deleting record.";

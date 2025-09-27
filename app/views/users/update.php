@@ -20,12 +20,13 @@
             border-radius: 12px;
             padding: 30px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
         }
         .form-card h4 {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: white;
+            text-align: center;
         }
         .btn-submit {
             background: #22c55e;
@@ -44,20 +45,33 @@
 <body>
 
     <div class="form-card">
-        <h4>Update Users Information</h4>
+        <h4>Update User Information</h4>
 
-        <!-- ✅ Fixed action -->
+        <!-- ✅ Form with username, email, role -->
         <form method="post" action="/index.php/users/update/<?= $user['id'] ?>">
+            
+            <!-- Username -->
             <div class="mb-3">
                 <label class="form-label">Username</label>
                 <input type="text" class="form-control" name="username" 
                        value="<?= $user['username'] ?>" required>
             </div>
 
+            <!-- Email -->
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" 
                        value="<?= $user['email'] ?>" required>
+            </div>
+
+            <!-- Role -->
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select class="form-select" name="role" required>
+                    <option value="Admin" <?= $user['role'] === 'Admin' ? 'selected' : '' ?>>Admin</option>
+                    <option value="Student" <?= $user['role'] === 'Student' ? 'selected' : '' ?>>Student</option>
+                    <option value="Teacher" <?= $user['role'] === 'Teacher' ? 'selected' : '' ?>>Teacher</option>
+                </select>
             </div>
 
             <button type="submit" class="btn-submit">Update</button>

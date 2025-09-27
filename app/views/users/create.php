@@ -38,14 +38,24 @@
         .btn-submit:hover {
             background: #16a34a;
         }
+        .form-select, .form-control {
+            background: #1f2937;
+            color: #e5e7eb;
+            border: 1px solid #374151;
+        }
+        .form-select:focus, .form-control:focus {
+            background: #1f2937;
+            color: #fff;
+            border-color: #22c55e;
+            box-shadow: none;
+        }
     </style>
 </head>
 <body>
 
     <div class="form-card">
-        <h4>Information</h4>
+        <h4>User Information</h4>
 
-        <!-- ✅ Updated action -->
         <form method="post" action="/index.php/users/create">
             <div class="mb-3">
                 <label class="form-label">Username</label>
@@ -55,6 +65,17 @@
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" placeholder="Enter email" required>
+            </div>
+
+            <!-- ✅ New Role field -->
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select name="role" class="form-select" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="admin">Admin</option>
+                    <option value="editor">Editor</option>
+                    <option value="user">User</option>
+                </select>
             </div>
 
             <button type="submit" class="btn-submit">Submit</button>

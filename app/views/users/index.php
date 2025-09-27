@@ -22,7 +22,6 @@
       color: #f9fafb;
     }
 
-    /* Container styling */
     .container {
       width: 100%;
       max-width: 1000px;
@@ -31,13 +30,13 @@
     /* Search Form */
     .search-form {
       display: flex;
-      justify-content: flex-start;
       gap: 10px;
       margin-bottom: 20px;
     }
     .search-form input {
       border-radius: 8px;
       padding: 8px 12px;
+      flex: 1;
     }
     .btn-search {
       background-color: #3b82f6;
@@ -64,7 +63,7 @@
       font-weight: 600;
     }
     .table td {
-      color: #0d0d0dff;
+      color: #e5e7eb;
     }
     .table-striped tbody tr:nth-of-type(odd) {
       background-color: #273449;
@@ -131,7 +130,7 @@
   </style>
 </head>
 <body>
-  <h1>Students Information</h1>
+  <h1>Users Information</h1>
 
   <div class="container">
     <!-- Search -->
@@ -146,17 +145,19 @@
       <thead>
         <tr>
           <th width="10%">ID</th>
-          <th width="30%">Name</th>
-          <th width="40%">Email</th>
-          <th width="20%">Action</th>
+          <th width="25%">Username</th>
+          <th width="30%">Email</th>
+          <th width="20%">Role</th>
+          <th width="15%">Action</th>
         </tr>
       </thead>
       <tbody>
-        <?php foreach (html_escape($user) as $users): ?>
+        <?php foreach ($user as $users): ?>
           <tr>
             <td><?= html_escape($users['id']); ?></td>
             <td><?= html_escape($users['username']); ?></td>
             <td><?= html_escape($users['email']); ?></td>
+            <td><?= html_escape($users['role']); ?></td>
             <td>
               <a href="<?= site_url('/users/update/'.$users['id']); ?>" class="action-btn update">Update</a>
               <a href="<?= site_url('/users/delete/'.$users['id']); ?>" class="action-btn delete" onclick="return confirm('Delete this user?');">Delete</a>
