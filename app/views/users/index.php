@@ -63,7 +63,7 @@
       font-weight: 600;
     }
     .table td {
-      color: #e5e7eb;
+      color: #101010ff;
     }
     .table-striped tbody tr:nth-of-type(odd) {
       background-color: #273449;
