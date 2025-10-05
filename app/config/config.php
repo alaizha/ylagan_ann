@@ -79,7 +79,7 @@ $config['ENVIRONMENT']             = 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= 'https://evangelio-terence.onrender.com';
+$config['base_url'] 				= 'https://ylagan-ann-20.onrender.com';
 
 /*
 |--------------------------------------------------------------------------
