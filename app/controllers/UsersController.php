@@ -23,7 +23,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
     }
 
     // Kunin info ng naka-login na user
-    $logged_in_user = $_SESSION['users']; 
+    $logged_in_user = $_SESSION['user']; 
     $data['logged_in_user'] = $logged_in_user;
 
     // Current page
