@@ -7,7 +7,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
  * Automatically generated via CLI.
  */
 
-    class UserController extends Controller {
+    class UsersController extends Controller {
         public function __construct()
         {
             parent::__construct();
