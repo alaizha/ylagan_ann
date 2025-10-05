@@ -24,10 +24,10 @@ class Auth {
      * @param string $role
      * @return bool
      */
-    public function register($username, $email, $password, $role = 'user')
+    public function register($username, $email, $password, $role = 'users')
     {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        return $this->_lava->db->table('user')->insert([
+        return $this->_lava->db->table('users')->insert([
             'username' => $username,
             'email'    => $email,
             'password' => $hash,
