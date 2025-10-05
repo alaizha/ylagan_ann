@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unique Login</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Gradient Glass</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
 
   <style>
     * {
@@ -19,45 +22,41 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: #0f0f1a;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
       overflow: hidden;
     }
 
-    /* Animated background circles */
-    .circles {
+    /* Floating gradient circles for depth */
+    .bg-circle {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.6;
+      animation: float 12s ease-in-out infinite alternate;
       z-index: 0;
     }
-
-    .circles li {
-      position: absolute;
-      display: block;
-      list-style: none;
-      width: 25px;
-      height: 25px;
-      background: rgba(255, 255, 255, 0.1);
-      animation: animate 20s linear infinite;
-      bottom: -150px;
-      border-radius: 50%;
+    .bg-circle:nth-child(1) {
+      width: 250px;
+      height: 250px;
+      background: #ff9ff3;
+      top: 10%;
+      left: 15%;
     }
-
-    .circles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-duration: 15s; }
-    .circles li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-duration: 10s; }
-    .circles li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-duration: 20s; }
-    .circles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-duration: 18s; }
-    .circles li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-duration: 12s; }
-    .circles li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-duration: 25s; }
-    .circles li:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-duration: 35s; }
-    .circles li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-duration: 45s; }
-    .circles li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-duration: 11s; }
-    .circles li:nth-child(10){ left: 85%; width: 150px; height: 150px; animation-duration: 30s; }
-
-    @keyframes animate {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
-      100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+    .bg-circle:nth-child(2) {
+      width: 300px;
+      height: 300px;
+      background: #18dcff;
+      bottom: 15%;
+      right: 10%;
+      animation-delay: 2s;
+    }
+    @keyframes float {
+      from {
+        transform: translateY(0px);
+      }
+      to {
+        transform: translateY(-30px);
+      }
     }
 
     /* Login Card */
@@ -65,12 +64,24 @@
       position: relative;
       width: 380px;
       padding: 50px 40px;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 20px;
-      backdrop-filter: blur(18px);
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
-      z-index: 1;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.25);
+      z-index: 2;
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .login h2 {
@@ -78,10 +89,11 @@
       font-size: 2em;
       font-weight: 600;
       margin-bottom: 25px;
-      color: #00e5ff;
-      text-shadow: 0 0 10px #00e5ff;
+      color: #fff;
+      letter-spacing: 1px;
     }
 
+    /* Input Fields */
     .inputBox {
       position: relative;
       margin-bottom: 25px;
@@ -92,14 +104,20 @@
       padding: 14px 45px 14px 15px;
       font-size: 1em;
       color: #fff;
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       outline: none;
       border-radius: 10px;
+      transition: 0.3s ease;
+    }
+
+    .inputBox input:focus {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: #fff;
     }
 
     .inputBox input::placeholder {
-      color: #bbb;
+      color: #e0e0e0;
     }
 
     .toggle-password {
@@ -109,69 +127,91 @@
       transform: translateY(-50%);
       cursor: pointer;
       font-size: 1.1em;
-      color: #00e5ff;
+      color: #fff;
+      opacity: 0.8;
+      transition: 0.3s;
     }
 
+    .toggle-password:hover {
+      opacity: 1;
+    }
+
+    /* Button */
     .login button {
       width: 100%;
       padding: 14px;
       border: none;
-      background: linear-gradient(90deg, #00e5ff, #00ffa3);
-      color: #0f0f1a;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
       font-size: 1.1em;
       font-weight: 600;
       border-radius: 10px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.3s ease;
       text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(37, 117, 252, 0.5);
     }
 
     .login button:hover {
-      opacity: 0.8;
-      box-shadow: 0 0 15px #00ffa3;
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Error Message */
+    .error-box {
+      background: rgba(255, 0, 0, 0.15);
+      color: #ffbcbc;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-size: 0.9em;
+      border: 1px solid rgba(255, 100, 100, 0.3);
     }
 
     .group {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 20px;
     }
 
     .group a {
       font-size: 0.95em;
-      color: #00e5ff;
+      color: #fff;
       text-decoration: none;
+      opacity: 0.8;
+      transition: 0.3s;
     }
 
     .group a:hover {
+      opacity: 1;
       text-decoration: underline;
     }
 
   </style>
 </head>
 <body>
-  <!-- Background circles -->
-  <ul class="circles">
-    <li></li><li></li><li></li><li></li><li></li>
-    <li></li><li></li><li></li><li></li><li></li>
-  </ul>
+  <!-- Floating Gradient Circles -->
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
 
   <!-- Login Card -->
   <div class="login">
     <h2>Login</h2>
 
     <?php if (!empty($error)): ?>
-      <div style="background: rgba(255,0,0,0.15); color: #ff7b7b; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 0.9em;">
+      <div class="error-box">
         <?= $error ?>
       </div>
     <?php endif; ?>
 
     <form method="post" action="<?= site_url('auth/login') ?>">
       <div class="inputBox">
-        <input type="text" placeholder="Username" name="username" required>
+        <input type="text" placeholder="Username" name="username" required />
       </div>
 
       <div class="inputBox">
-        <input type="password" placeholder="Password" name="password" id="password" required>
+        <input type="password" placeholder="Password" name="password" id="password" required />
         <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
       </div>
 
