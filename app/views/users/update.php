@@ -14,78 +14,77 @@
       font-family: "Poppins", sans-serif;
     }
 
-    /* Background Gradient with Glow */
     body {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(circle at top left, #0b132b, #1c2541, #3a506b);
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: #fff;
       overflow: hidden;
       position: relative;
-      color: #fff;
     }
 
-    /* Animated light blobs */
-    body::before,
-    body::after {
-      content: '';
+    /* Floating gradient circles */
+    .bg-circle {
       position: absolute;
       border-radius: 50%;
-      filter: blur(200px);
-      opacity: 0.6;
-      animation: float 10s infinite alternate ease-in-out;
+      filter: blur(100px);
+      opacity: 0.5;
+      animation: float 10s ease-in-out infinite alternate;
       z-index: 0;
     }
-
-    body::before {
-      width: 400px;
-      height: 400px;
-      background: #00e5ff;
-      top: -100px;
-      left: -120px;
+    .bg-circle:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      background: #ff9ff3;
+      top: 15%;
+      left: 10%;
     }
-
-    body::after {
-      width: 500px;
-      height: 500px;
-      background: #00ffa3;
-      bottom: -150px;
-      right: -150px;
+    .bg-circle:nth-child(2) {
+      width: 350px;
+      height: 350px;
+      background: #18dcff;
+      bottom: 10%;
+      right: 10%;
       animation-delay: 3s;
     }
-
     @keyframes float {
-      from { transform: translateY(0); }
-      to { transform: translateY(60px); }
+      from { transform: translateY(0px); }
+      to { transform: translateY(-40px); }
     }
 
-    /* Glassmorphic Card */
+    /* Form card (glassmorphism) */
     .form-card {
       position: relative;
       width: 380px;
-      padding: 40px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+      padding: 40px 35px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.3);
       text-align: center;
-      z-index: 1;
+      z-index: 2;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .form-card h1 {
       font-size: 2em;
       font-weight: 700;
-      color: #00ffa3;
+      color: #fff;
+      text-shadow: 0 0 12px rgba(37, 117, 252, 0.8);
       margin-bottom: 25px;
-      text-shadow: 0 0 15px #00ffa3;
     }
 
-    /* Form Inputs */
     .form-group {
       position: relative;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     .form-group input,
@@ -93,92 +92,95 @@
       width: 100%;
       padding: 12px 15px;
       font-size: 1em;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 2px solid transparent;
       background: rgba(255, 255, 255, 0.1);
       color: #fff;
-      transition: 0.3s;
+      transition: 0.3s ease;
     }
 
     .form-group input::placeholder {
-      color: #bbb;
+      color: #ccc;
     }
 
     .form-group input:focus,
     .form-group select:focus {
       outline: none;
-      border-color: #00e5ff;
-      box-shadow: 0 0 10px #00e5ff, 0 0 20px #00ffa3;
+      border-color: #2575fc;
+      box-shadow: 0 0 15px rgba(37, 117, 252, 0.8);
       background: rgba(255, 255, 255, 0.15);
     }
 
-    /* Toggle Password Icon */
+    /* Password toggle icon */
     .toggle-password {
       position: absolute;
       right: 15px;
       top: 50%;
       transform: translateY(-50%);
-      color: #00e5ff;
+      color: #18dcff;
       cursor: pointer;
       transition: 0.3s;
     }
 
     .toggle-password:hover {
-      color: #00ffa3;
+      color: #6a11cb;
     }
 
-    /* Submit Button */
+    /* Submit button */
     .btn-submit {
       width: 100%;
       padding: 14px;
       border: none;
-      border-radius: 8px;
-      background: linear-gradient(90deg, #00ffa3, #00e5ff);
-      color: #0f0f1a;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
       font-size: 1.1em;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
       transition: 0.3s;
+      box-shadow: 0 0 20px rgba(37, 117, 252, 0.5);
     }
 
     .btn-submit:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 35px rgba(0, 255, 255, 0.8);
+      box-shadow: 0 0 25px rgba(37, 117, 252, 0.8);
     }
 
-    /* Return Button */
+    /* Return button */
     .btn-return {
       display: inline-block;
       margin-top: 20px;
       padding: 10px 18px;
       border-radius: 8px;
-      color: #00ffa3;
+      color: #fff;
       text-decoration: none;
-      border: 1px solid #00ffa3;
-      transition: 0.3s;
       font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: 0.3s;
     }
 
     .btn-return:hover {
-      background: #00ffa3;
-      color: #0f0f1a;
-      box-shadow: 0 0 15px #00ffa3;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
     }
   </style>
 </head>
 <body>
+  <!-- Background circles -->
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
+
   <div class="form-card">
     <h1>Update User</h1>
-    <form action="<?= site_url('users/update/'.$user['id']) ?>" method="POST">
+    <form action="<?=site_url('users/update/'.$user['id'])?>" method="POST">
       <div class="form-group">
-        <input type="text" name="username" value="<?= html_escape($user['username']); ?>" placeholder="Username" required>
+        <input type="text" name="username" value="<?=html_escape($user['username']);?>" placeholder="Username" required>
       </div>
       <div class="form-group">
-        <input type="email" name="email" value="<?= html_escape($user['email']); ?>" placeholder="Email" required>
+        <input type="email" name="email" value="<?=html_escape($user['email']);?>" placeholder="Email" required>
       </div>
 
-      <?php if (!empty($logged_in_user) && $logged_in_user['role'] === 'admin'): ?>
+      <?php if(!empty($logged_in_user) && $logged_in_user['role'] === 'admin'): ?>
         <div class="form-group">
           <select name="role" required>
             <option value="user" <?= $user['role'] === 'user' ? 'selected' : ''; ?>>User</option>
@@ -194,7 +196,7 @@
 
       <button type="submit" class="btn-submit">Update User</button>
     </form>
-    <a href="<?= site_url('/users'); ?>" class="btn-return">Return to Home</a>
+    <a href="<?=site_url('/users');?>" class="btn-return">Return to Home</a>
   </div>
 
   <script>
